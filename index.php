@@ -12,7 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <link rel="stylesheet" href="owl.carousel.min.css"/>
-    <script src="script.js"></script>
 
 </head>
 <body>
@@ -266,20 +265,25 @@
             </div>
             <div class="column right">
                 <div class="text">Message me</div>
-                <form action="#">
+                <form action="enquiries_action.php" method="post">
                     <div class="fields">
                         <div class="field name">
-                            <input type="text" placeholder="Name" required>
+                            <input type="text" name="name" placeholder="Name" required>
+                        </div>
+                        <div class="field phone">
+                            <input type="phone" name="phone" placeholder="Mobile Number" required>
+                        </div>
+                    </div>
+                    <div class="fields">
+                        <div class="field subject">
+                            <input type="text" name="subject" placeholder="Subject Here">
                         </div>
                         <div class="field email">
-                            <input type="email" placeholder="Email" required>
+                            <input type="email" name="email" placeholder="Email">
                         </div>
                     </div>
-                    <div class="field">
-                        <input type="text" placeholder="Subject" required>
-                    </div>
                     <div class="field textarea">
-                        <textarea cols="30" rows="10" placeholder="Message.." required></textarea>
+                        <textarea name="message" cols="30" rows="10" placeholder="Message.."></textarea>
                     </div>
                     <div class="button">
                         <button type="submit">Send message</button>
@@ -296,5 +300,28 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+    function save(){
+        var cat = $('.otns').val();
+        var result = $('.txt').val();
+        $.ajax({
+            url : 'entry-form-action.php',
+            method : 'POST',
+            data : {'cat':cat, 'result':result},
+            success : function(data){
+                $('.msg').show();
+                $('.msg').delay(2000).hide(500);
+            }
+        });
+    };
+    $(document).on('click','#sub-btn',function(){
+        save();
+    });
+    $(document).on('keypress','.txt',function(a){
+        if(a.which==13){
+            save();
+        }
+    });
+</script>
 </body>
 </html>
